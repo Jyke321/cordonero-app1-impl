@@ -1,0 +1,39 @@
+@startuml
+Class Application {
+    +main(String[] args)
+    +start()
+}
+Class ToDoList {
+    -static int count=0
+    -List<Item> items
+'3 character title
+    -String title
+    -boolean save;
+
+    +editTitle()
+    +addItem()
+    +getCount()
+}
+Class Item {
+    -int count
+    -String description
+    -String dueDate
+    -Boolean completed
+
+    +editDescription()
+    +editDueDate()
+    +markComplete()
+    +getCount
+}
+Class DataHandler {
+    -String buffer
+    +LinkedList<ToDoList> data
+    +save()
+    +load()
+    -toParse()
+    -fromParse()
+}
+Application -- ToDoList
+Application -- DataHandler
+ToDoList --o Item
+@enduml

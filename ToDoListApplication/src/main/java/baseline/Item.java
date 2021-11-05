@@ -1,14 +1,17 @@
 package baseline;
 
+/*
+ *  UCF COP3330 Fall 2021 Application Assignment 1 Solution
+ *  Copyright 2021 Jacob Cordonero
+ */
+
 public class Item {
-    private static int count=0;
     private String description;
     private String dueDate;
     private Boolean completed;
 
     Item() {
         //create new item
-        count = count++;
         this.description = "";
         this.dueDate = "";
         this.completed = false;
@@ -28,10 +31,15 @@ public class Item {
         //gets the due date and returns it
         return "";
     }
+    public boolean validateDescription(String newDescription) {
+        //validate description
+        return false;
+    }
+    public boolean validateDueDate(String newDescription) {
+        //validate due date
+        return false;
+    }
     public void markComplete() {
         //alternates value at held in completed
-    }
-    public int getCount() {
-        return count;
     }
 }

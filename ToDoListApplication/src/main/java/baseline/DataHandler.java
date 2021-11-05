@@ -1,10 +1,15 @@
 package baseline;
 
+/*
+ *  UCF COP3330 Fall 2021 Application Assignment 1 Solution
+ *  Copyright 2021 Jacob Cordonero
+ */
+
 import java.util.LinkedList;
 
 public class DataHandler {
     private String buffer;
-    public LinkedList<ToDoList> data = new LinkedList<>();
+    public ToDoList data = new ToDoList();
 
     public void save(String File) {
         //call toParse()

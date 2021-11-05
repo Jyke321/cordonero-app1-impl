@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class Application extends javafx.application.Application {
+public class ToDoListApplication extends javafx.application.Application {
     //Application entry point
     public static void main(String[] args) {
         launch(args);

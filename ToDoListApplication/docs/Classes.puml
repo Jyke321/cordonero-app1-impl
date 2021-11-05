@@ -4,36 +4,37 @@ Class Application {
     +start()
 }
 Class ToDoList {
-    -static int count=0
-    -List<Item> items
+    -ObservableList<Item> items
 '3 character title
-    -String title
-    -boolean save;
-
-    +editTitle()
     +addItem()
-    +getCount()
+    +editItem()
+    +getItemCount()
+    +clearList()
 }
 Class Item {
-    -int count
     -String description
     -String dueDate
     -Boolean completed
 
     +editDescription()
     +editDueDate()
+    +validateDescription()
+    +validateDueDate()
     +markComplete()
-    +getCount
 }
 Class DataHandler {
     -String buffer
-    +LinkedList<ToDoList> data
+    +ToDoList data
     +save()
     +load()
     -toParse()
     -fromParse()
 }
-Application -- ToDoList
-Application -- DataHandler
+Class ApplicationController {
+    'fxml controller
+}
+Application -- ApplicationController
+ApplicationController --o DataHandler
+DataHandler --o ToDoList
 ToDoList --o Item
 @enduml

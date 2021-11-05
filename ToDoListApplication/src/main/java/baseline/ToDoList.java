@@ -1,26 +1,27 @@
 package baseline;
 
-import java.util.List;
+/*
+ *  UCF COP3330 Fall 2021 Application Assignment 1 Solution
+ *  Copyright 2021 Jacob Cordonero
+ */
+
+import javafx.collections.ObservableList;
 
 public class ToDoList {
-    private static int count=0;
-    private List<Item> items;
-    private String title;
-    boolean save;
-
+    private ObservableList<Item> items;
     ToDoList () {
-        count = count++;
         this.items = null;
-        this.title = "";
-        this.save = true;
     }
-    public void editTitle(String newTitle) {
-        //edits the title
+    public void addItem(Item item) {
+        //adds a blank item by default if there aren't more than 100 items
     }
-    public void addItem() {
-        //adds a blank item by default if there aren't more than 256 items
+    public void editItem(int item) {
+        //edits a predefined item
     }
-    public int getCount() {
-        return count;
+    public int getItemCount() {
+        return items.size();
+    }
+    public void clearList() {
+        //clears all items from list
     }
 }

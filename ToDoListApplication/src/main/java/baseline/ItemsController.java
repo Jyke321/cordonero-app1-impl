@@ -1,41 +1,48 @@
 package baseline;
 
+/*
+ *  UCF COP3330 Fall 2021 Application Assignment 1 Solution
+ *  Copyright 2021 Jacob Cordonero
+ */
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 public class ItemsController {
 
     @FXML
-    private Button AddItem;
+    private Button Cancel;
 
     @FXML
-    private Button Back;
+    private Button Confirm;
 
     @FXML
-    private TableColumn<?, ?> CompleteStatus;
+    private TextField EditDescription;
 
     @FXML
-    private TableColumn<?, ?> Deleteable;
+    private DatePicker EditDueDate;
 
     @FXML
-    private TableColumn<?, ?> Description;
+    void Cancel(ActionEvent event) {
+
+    }
 
     @FXML
-    private TableColumn<?, ?> DueDate;
+    void Confirm(ActionEvent event) {
+
+    }
 
     @FXML
-    private TableColumn<?, ?> Editable;
+    void SetDate(ActionEvent event) {
+
+    }
 
     @FXML
-    private Label NumberOfItems;
+    void SetDescription(ActionEvent event) {
 
-    @FXML
-    private TextField Title;
-
-    @FXML
-    private Button View;
+    }
 
 }

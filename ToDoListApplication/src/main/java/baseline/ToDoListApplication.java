@@ -22,7 +22,7 @@ public class ToDoListApplication extends javafx.application.Application {
         Parent root =
                 FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Application.fxml")));
         Scene scene = new Scene(root); // attach scene graph to scene
-        stage.setTitle("Application"); // displayed in window's title bar
+        stage.setTitle("To Do List Application"); // displayed in window's title bar
         stage.setScene(scene); // attach scene to stage
         stage.show(); // display the stage
     }

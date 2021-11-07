@@ -26,5 +26,5 @@ javafx {
 }
 
 application {
-    mainClass = "baseline.Application"
+    mainClass = "baseline.ToDoListApplication"
 }

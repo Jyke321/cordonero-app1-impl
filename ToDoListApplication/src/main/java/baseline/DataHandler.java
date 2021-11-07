@@ -5,11 +5,20 @@ package baseline;
  *  Copyright 2021 Jacob Cordonero
  */
 
-import java.util.LinkedList;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataHandler {
     private String buffer;
-    public ToDoList data = new ToDoList();
+    public ToDoList list = new ToDoList();
+    private final Map<String,Parent> map = new HashMap<>();
+    public Scene scene;
+    public Stage stage;
+
 
     public void save(String File) {
         //call toParse()
@@ -24,5 +33,11 @@ public class DataHandler {
     }
     private void fromParse() {
         //un-parse buffer data into the data structures
+    }
+    public void addToParentMap(String key,Parent root) {
+        map.put(key,root);
+    }
+    public Parent getRootFromParentMap(String key) {
+        return map.get(key);
     }
 }

@@ -5,6 +5,8 @@ package baseline;
  *  Copyright 2021 Jacob Cordonero
  */
 
+import java.text.Format;
+
 public class Item {
     private String description;
     private String dueDate;
@@ -19,27 +21,30 @@ public class Item {
 
     public void editDescription(String newDescription) {
         //sets the description to the new one
+        description = newDescription;
     }
     public String getDescription() {
         //gets the description and returns it
-        return "";
+        return description;
     }
     public void editDueDate(String newDueDate) {
         //sets the due date to the new one
+        dueDate = newDueDate;
     }
     public String getDueDate() {
         //gets the due date and returns it
-        return "";
+        return dueDate;
     }
     public boolean validateDescription(String newDescription) {
         //validate description
-        return false;
+        return !newDescription.isEmpty() && (newDescription.length()<256);
     }
-    public boolean validateDueDate(String newDescription) {
+    public boolean validateDueDate(String newDueDate) {
         //validate due date
-        return false;
+        return (newDueDate.isEmpty());
     }
     public void markComplete() {
         //alternates value at held in completed
+        completed = !completed;
     }
 }

@@ -12,12 +12,6 @@ class ItemTest {
         assertEquals(1,1);
     }
     @Test
-    void testMarkComplete() {
-        //create an item
-        //mark it complete
-        assertTrue(true);
-    }
-    @Test
     void testEditDueDate() {
         //create an item
         //edit it's due date to 2021-10-24
@@ -30,5 +24,15 @@ class ItemTest {
         //edit it's description
         //compare against string set to the same description
         assertEquals("","");
+    }
+    @Test
+    void testValidateDueDateTrue() {
+        Item test = new Item();
+        assertTrue(test.validateDueDate("2021-11-07"));
+    }
+    @Test
+    void testValidateDueDateFalse() {
+        Item test = new Item();
+        assertFalse(test.validateDueDate("11-07-2021"));
     }
 }

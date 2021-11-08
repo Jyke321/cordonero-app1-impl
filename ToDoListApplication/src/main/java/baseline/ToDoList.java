@@ -6,7 +6,6 @@ package baseline;
  */
 
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
@@ -14,11 +13,14 @@ import java.util.List;
 
 public class ToDoList {
     private List<Item> list = new ArrayList<>();
+    private String view;
     private ObservableList<Item> items = FXCollections.observableList(list);
-    ToDoList() {
-        //items.addListener((ListChangeListener) change -> {
 
-        //});
+    public void setViewType(String view) {
+        this.view = view;
+    }
+    public String getViewType() {
+        return view;
     }
     public void addItem(Item item) {
         //adds a blank item by default if there aren't more than 100 items
@@ -41,5 +43,14 @@ public class ToDoList {
     public void clearList() {
         //clears all items from list
         items.clear();
+    }
+    public ObservableList<Item> getItems() {
+        return items;
+    }
+    public void deleteItem(int item) {
+        items.remove(item,item);
+    }
+    public Boolean getCompleted(int item) {
+        return items.get(item).getCompleted();
     }
 }

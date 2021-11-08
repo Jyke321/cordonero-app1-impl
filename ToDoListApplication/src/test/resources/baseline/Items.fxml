@@ -17,12 +17,12 @@
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font></Text>
-            <TextField fx:id="EditDescription" onAction="#SetDescription" promptText="Edit Description" />
+            <TextField fx:id="EditDescription" onAction="#setDescription" promptText="Edit Description" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Due Date: (Optional)">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font></Text>
-            <DatePicker fx:id="EditDueDate" onAction="#SetDate" promptText="YYYY-MM-DD" />
+            <DatePicker fx:id="EditDueDate" onAction="#setDate" promptText="YYYY-MM-DD" />
             <HBox alignment="CENTER" prefHeight="36.0" prefWidth="600.0" spacing="50.0" translateY="50.0">
                <children>
                   <Button fx:id="Cancel" minWidth="100.0" mnemonicParsing="false" onAction="#Cancel" text="Cancel">

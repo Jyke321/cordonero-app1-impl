@@ -5,74 +5,64 @@ package baseline;
  *  Copyright 2021 Jacob Cordonero
  */
 
+import javafx.collections.ListChangeListener;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Callback;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 public class ApplicationController {
 
     private DataHandler data = new DataHandler();
-    private final String MAIN = "MainRoot";
-    private final String ADD = "AddRoot";
 
     @FXML
-    private Button AddItem;
+    private Button addItem;
 
     @FXML
-    private ComboBox<String> ChangeDisplay;
+    private ComboBox<String> changeDisplay;
 
     @FXML
-    private TableColumn<?, ?> Complete;
+    private TableColumn<Item, Boolean> complete;
 
     @FXML
-    private TableColumn<?, ?> DeleteList;
+    private TableColumn<Item, String> deleteList;
 
     @FXML
-    private TableColumn<String, String> Description;
+    private TableColumn<Item, String> description;
 
     @FXML
-    private TableColumn<String, String> DueDate;
+    private TableColumn<Item, String> dueDate;
 
     @FXML
-    private TableColumn<?, ?> EditList;
+    private TableColumn<Item, String> editList;
 
     @FXML
-    private Button Guide;
+    private TableView<Item> listTable;
 
     @FXML
-    private TableView<?> ListTable;
+    private Button loadButton;
 
     @FXML
-    private Button LoadButton;
+    private Label numberOfItems;
 
     @FXML
-    private Label NumberOfItems;
+    private Button saveButton;
 
     @FXML
-    private Button SaveButton;
-
-    @FXML
-    private Button Cancel;
-
-    @FXML
-    private Button Confirm;
-
-    @FXML
-    private TextField EditDescription;
-
-    @FXML
-    private DatePicker EditDueDate;
-
-    @FXML
-    void AddItem(ActionEvent event) {
+    void addItem(ActionEvent event) {
         try {
             switchToAddScene(event);
         } catch (Exception e) {
@@ -81,84 +71,110 @@ public class ApplicationController {
     }
 
     @FXML
-    void ClearItems(ActionEvent event) {
-
+    void clearItems() {
+        data.list.clearList();
     }
 
-    @FXML
-    void Load(ActionEvent event) {
-        Item newItem = new Item();
-        data.list.addItem(newItem);
-        NumberOfItems.setText(data.list.getItemCount() + "/100 Items");
-    }
+    FileChooser fileChooser = new FileChooser();
 
     @FXML
-    void Save(ActionEvent event) {
+    void load(ActionEvent event) {
+        Window stage = ((Node)event.getSource()).getScene().getWindow();
+        fileChooser.setTitle("Load Dialog");
 
-    }
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text file","*.txt"));
 
-    @FXML
-    void displayGuide(ActionEvent event) {
-
-    }
-
-    @FXML
-    void Cancel(ActionEvent event) {
         try {
-            returnToMainScene(event);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void Confirm(ActionEvent event) throws IOException {
-        Item newItem = new Item();
-        if (newItem.validateDescription(EditDescription.getText()) &&
-                newItem.validateDescription(EditDueDate.getConverter().toString())) {
-            newItem.editDescription(EditDescription.getText());
-            newItem.editDueDate(EditDueDate.getConverter().toString());
-            data.list.addItem(newItem);
-            returnToMainScene(event);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter proper values", ButtonType.CLOSE);
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    void SetDate(ActionEvent event) {
-
-    }
-
-    @FXML
-    void SetDescription(ActionEvent event) {
-
-    }
-
-    public void initialize(){
-        try {
-            ChangeDisplay.getItems().addAll("View All","View Complete","View Incomplete");
-            NumberOfItems.setText(data.list.getItemCount() + "/100 Items");
-            for (int i = 0; i < data.list.getItemCount(); i++) {
-                Description.setText(data.list.getDescription(i));
-                DueDate.setText(data.list.getDueDate(i));
-            }
+            File file = fileChooser.showOpenDialog(stage);
+            fileChooser.setInitialDirectory(file.getParentFile());
+            data.load(file);
         } catch (Exception e) {
 
         }
     }
 
+    @FXML
+    void save(ActionEvent event) {
+        Window stage = ((Node)event.getSource()).getScene().getWindow();
+        fileChooser.setTitle("Save Dialog");
+        fileChooser.setInitialFileName("save");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text file","*.txt"));
+        try {
+            File file = fileChooser.showSaveDialog(stage);
+            fileChooser.setInitialDirectory(file.getParentFile());//save the chosen directory
+            data.save(file, fileChooser.getInitialDirectory());
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void initialize(){
+        fileChooser.setInitialDirectory(new File("C:\\"));
+
+        changeDisplay.getItems().addAll("View All","View Complete","View Incomplete");
+        changeDisplay.setValue("View All");
+
+        complete.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
+        complete.setStyle("-fx-alignment: CENTER;");
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        dueDate.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+        dueDate.setStyle("-fx-alignment: CENTER;");
+        editList.setCellValueFactory(new PropertyValueFactory<>("editItem"));
+        editList.setStyle("-fx-alignment: CENTER;");
+        deleteList.setCellValueFactory(new PropertyValueFactory<>("deleteItem"));
+        deleteList.setStyle("-fx-alignment: CENTER;");
+
+        postInitialize();
+    }
+
+    public void transferData(DataHandler data) {
+        this.data = data;
+        changeDisplay.setValue(data.getViewType());
+
+        numberOfItems.setText(data.list.getItemCount() + "/100 Items");
+        postInitialize();
+    }
+
+    public void postInitialize() {
+        changeDisplay.valueProperty().addListener((observable, oldValue, newValue) -> data.setViewType(changeDisplay.getValue()));
+
+        FilteredList<Item> filteredList = new FilteredList<>(data.list.getItems(),p -> true);
+
+        changeDisplay.valueProperty().addListener((observable, oldValue, newValue) -> {
+            data.setViewType(newValue);
+            filteredList.setPredicate(item -> {
+                if(newValue == null || newValue == "View All") {
+                    return true;
+                }
+                if(newValue == "View Complete" && item.getCompleted())
+                    return true;
+                if(newValue == "View Incomplete" && !item.getCompleted())
+                    return  true;
+                else
+                    return false;
+            });
+        });
+
+        data.list.getItems().addListener((ListChangeListener<Item>) c -> {
+            numberOfItems.setText(data.list.getItemCount() + "/100 Items");
+            listTable.getItems();
+        });
+        listTable.setItems(filteredList);
+    }
+
     public void switchToAddScene(ActionEvent event) throws IOException {
-        data.scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Items.fxml"))));
-        data.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        data.stage.setScene(data.scene);
-        data.stage.show();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("Items.fxml"));
+        Parent mainParent = loader.load();
+
+        Scene mainScene = new Scene(mainParent);
+
+        ItemsController controller = loader.getController();
+        controller.transferData(data);
+
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(mainScene);
+        window.show();
     }
-    public void returnToMainScene(ActionEvent event) throws IOException {
-        data.scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Application.fxml"))));
-        data.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        data.stage.setScene(data.scene);
-        data.stage.show();
-    }
+
 }
